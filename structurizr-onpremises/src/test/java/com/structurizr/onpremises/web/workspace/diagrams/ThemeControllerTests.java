@@ -87,15 +87,7 @@ public class ThemeControllerTests extends ControllerTestsBase {
 
         String view = controller.showPublicTheme(1, model);
         assertEquals("json", view);
-        assertEquals("""
-                {
-                  "name" : "Name",
-                  "description" : "Description",
-                  "elements" : [ {
-                    "tag" : "Person",
-                    "shape" : "Person"
-                  } ]
-                }""", model.getAttribute("json"));
+        assertEquals("{\r\n  \"name\" : \"Name\",\r\n  \"description\" : \"Description\",\r\n  \"elements\" : [ {\r\n    \"tag\" : \"Person\",\r\n    \"shape\" : \"Person\"\r\n  } ]\r\n}", model.getAttribute("json"));
     }
 
     @Test
@@ -168,15 +160,7 @@ public class ThemeControllerTests extends ControllerTestsBase {
 
         String view = controller.showSharedTheme(1, "token", model);
         assertEquals("json", view);
-        assertEquals("""
-                {
-                  "name" : "Name",
-                  "description" : "Description",
-                  "elements" : [ {
-                    "tag" : "Person",
-                    "shape" : "Person"
-                  } ]
-                }""", model.getAttribute("json"));
+        assertEquals("{\r\n  \"name\" : \"Name\",\r\n  \"description\" : \"Description\",\r\n  \"elements\" : [ {\r\n    \"tag\" : \"Person\",\r\n    \"shape\" : \"Person\"\r\n  } ]\r\n}", model.getAttribute("json"));
     }
 
     @Test
@@ -232,15 +216,7 @@ public class ThemeControllerTests extends ControllerTestsBase {
         setUser("user@example.com");
         String view = controller.showAuthenticatedTheme(1, "main", "version", model);
         assertEquals("json", view);
-        assertEquals("""
-                {
-                  "name" : "Name",
-                  "description" : "Description",
-                  "elements" : [ {
-                    "tag" : "Person",
-                    "shape" : "Person"
-                  } ]
-                }""", model.getAttribute("json"));
+        assertEquals("{\r\n  \"name\" : \"Name\",\r\n  \"description\" : \"Description\",\r\n  \"elements\" : [ {\r\n    \"tag\" : \"Person\",\r\n    \"shape\" : \"Person\"\r\n  } ]\r\n}", model.getAttribute("json"));
     }
 
     @Test
@@ -262,15 +238,7 @@ public class ThemeControllerTests extends ControllerTestsBase {
         setUser("user1@example.com");
         String view = controller.showAuthenticatedTheme(1, "main", "version", model);
         assertEquals("json", view);
-        assertEquals("""
-                {
-                  "name" : "Name",
-                  "description" : "Description",
-                  "elements" : [ {
-                    "tag" : "Person",
-                    "shape" : "Person"
-                  } ]
-                }""", model.getAttribute("json"));
+        assertEquals("{\r\n  \"name\" : \"Name\",\r\n  \"description\" : \"Description\",\r\n  \"elements\" : [ {\r\n    \"tag\" : \"Person\",\r\n    \"shape\" : \"Person\"\r\n  } ]\r\n}", model.getAttribute("json"));
     }
 
     @Test
@@ -292,15 +260,7 @@ public class ThemeControllerTests extends ControllerTestsBase {
         setUser("user1@example.com");
         String view = controller.showAuthenticatedTheme(1, "main", "version", model);
         assertEquals("json", view);
-        assertEquals("""
-                {
-                  "name" : "Name",
-                  "description" : "Description",
-                  "elements" : [ {
-                    "tag" : "Person",
-                    "shape" : "Person"
-                  } ]
-                }""", model.getAttribute("json"));
+        assertEquals("{\r\n  \"name\" : \"Name\",\r\n  \"description\" : \"Description\",\r\n  \"elements\" : [ {\r\n    \"tag\" : \"Person\",\r\n    \"shape\" : \"Person\"\r\n  } ]\r\n}", model.getAttribute("json"));
     }
 
 }
