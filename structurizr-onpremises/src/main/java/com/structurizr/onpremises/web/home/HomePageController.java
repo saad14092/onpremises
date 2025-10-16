@@ -73,7 +73,8 @@ public class HomePageController extends AbstractController {
         model.addAttribute("numberOfWorkspaces", workspaces.size());
         model.addAttribute("sort", sort);
 
-        model.addAttribute("userCanCreateWorkspace", Configuration.getInstance().getAdminUsersAndRoles().isEmpty() || getUser().isAdmin());
+        model.addAttribute("userCanCreateWorkspace", Configuration.getInstance().isFeatureEnabled(Features.UI_WORKSPACE_CREATION)
+                && (Configuration.getInstance().getAdminUsersAndRoles().isEmpty() || getUser().isAdmin()));
 
         addCommonAttributes(model, "", true);
 

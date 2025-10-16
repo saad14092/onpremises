@@ -26,9 +26,12 @@ class DefaultsConfigurer extends Configurer {
         setDefault(ADMIN_USERS_AND_ROLES, "");
         setDefault(WORKSPACE_EVENT_LISTENER_PLUGIN, "");
         setDefault(DSL_EDITOR, "false"); // backwards compatibility
+        setDefault(WORKSPACE_READ_ROLE_TEMPLATE, DEFAULT_WORKSPACE_READ_ROLE_TEMPLATE);
+        setDefault(WORKSPACE_WRITE_ROLE_TEMPLATE, DEFAULT_WORKSPACE_WRITE_ROLE_TEMPLATE);
 
         setDefault(Features.UI_WORKSPACE_USERS, "true");
         setDefault(Features.UI_WORKSPACE_SETTINGS, "true");
+        setDefault(Features.UI_WORKSPACE_CREATION, "true");
         setDefault(Features.UI_DSL_EDITOR, "false");
         setDefault(Features.WORKSPACE_ARCHIVING, "false");
         setDefault(Features.WORKSPACE_BRANCHES, "false");

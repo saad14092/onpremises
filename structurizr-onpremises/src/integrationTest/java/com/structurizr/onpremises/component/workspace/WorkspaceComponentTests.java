@@ -44,7 +44,7 @@ public class WorkspaceComponentTests {
         sdf.setTimeZone(TimeZone.getTimeZone(UTC_TIME_ZONE));
         
         User user = new User("user@example.com", new HashSet<>(), AuthenticationMethod.LOCAL);
-        long workspaceId = workspaceComponent.createWorkspace(user);
+        long workspaceId = workspaceComponent.createWorkspace(user, null);
         assertEquals(1, workspaceId);
 
         WorkspaceMetaData workspaceMetaData = workspaceComponent.getWorkspaceMetaData(1);
@@ -106,7 +106,7 @@ public class WorkspaceComponentTests {
     @Test
     public void deleteWorkspace() throws Exception {
         User user = new User("user@example.com", new HashSet<>(), AuthenticationMethod.LOCAL);
-        long workspaceId = workspaceComponent.createWorkspace(user);
+        long workspaceId = workspaceComponent.createWorkspace(user, null);
         assertEquals(1, workspaceId);
 
         Configuration.getInstance().setFeatureDisabled(Features.WORKSPACE_ARCHIVING);
@@ -114,7 +114,7 @@ public class WorkspaceComponentTests {
         assertFalse(new File(DATA_DIRECTORY, "1").exists());
 
         // create a new workspace - the ID should be recycled
-        workspaceId = workspaceComponent.createWorkspace(user);
+        workspaceId = workspaceComponent.createWorkspace(user, null);
         assertEquals(1, workspaceId);
 
         Configuration.getInstance().setFeatureEnabled(Features.WORKSPACE_ARCHIVING);
@@ -123,7 +123,7 @@ public class WorkspaceComponentTests {
         assertNull(workspaceComponent.getWorkspaceMetaData(1));
 
         // with workspace archiving enabled, the workspace isn't deleted, so we get a new ID
-        workspaceId = workspaceComponent.createWorkspace(user);
+        workspaceId = workspaceComponent.createWorkspace(user, null);
         assertEquals(2, workspaceId);
     }
 

@@ -23,7 +23,7 @@ public interface WorkspaceComponent {
 
     String getWorkspace(long workspaceId, String branch, String version) throws WorkspaceComponentException;
 
-    long createWorkspace(User user) throws WorkspaceComponentException;
+    long createWorkspace(User user, Long forcedWorkspaceId) throws WorkspaceComponentException;
 
     boolean deleteBranch(long workspaceId, String branch) throws WorkspaceComponentException;
 

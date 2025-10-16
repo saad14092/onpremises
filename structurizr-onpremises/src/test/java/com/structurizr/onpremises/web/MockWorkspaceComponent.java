@@ -37,7 +37,7 @@ public abstract class MockWorkspaceComponent implements WorkspaceComponent {
     }
 
     @Override
-    public long createWorkspace(User user) throws WorkspaceComponentException {
+    public long createWorkspace(User user, Long forcedWorkspaceId) throws WorkspaceComponentException {
         return 0;
     }
 

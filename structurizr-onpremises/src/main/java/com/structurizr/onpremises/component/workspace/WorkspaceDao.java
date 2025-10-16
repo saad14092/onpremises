@@ -5,7 +5,6 @@ import com.structurizr.onpremises.domain.InputStreamAndContentLength;
 import com.structurizr.onpremises.domain.User;
 
 import java.io.File;
-import java.util.Collection;
 import java.util.List;
 
 interface WorkspaceDao {
@@ -16,7 +15,7 @@ interface WorkspaceDao {
 
     void putWorkspaceMetaData(WorkspaceMetaData workspaceMetaData);
 
-    long createWorkspace(User user);
+    long createWorkspace(User user, Long forcedWorkspaceId);
 
     boolean deleteBranch(long workspaceId, String branch);
 

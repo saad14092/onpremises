@@ -71,6 +71,10 @@ public final class Configuration {
             new SamlConfigurer(properties).apply();
         }
 
+        if (getProperty(AUTHENTICATION_IMPLEMENTATION).equals(AUTHENTICATION_VARIANT_OIDC)) {
+            new OidcConfigurer(properties).apply();
+        }
+
         if (getProperty(SEARCH_IMPLEMENTATION).equals(SEARCH_VARIANT_ELASTICSEARCH)) {
             new ElasticsearchConfigurer(properties).apply();
         }
@@ -105,6 +109,7 @@ public final class Configuration {
     private void configureFeatures() {
         features.configure(Features.UI_WORKSPACE_USERS, Boolean.parseBoolean(getProperty(Features.UI_WORKSPACE_USERS)));
         features.configure(Features.UI_WORKSPACE_SETTINGS, Boolean.parseBoolean(getProperty(Features.UI_WORKSPACE_SETTINGS)));
+        features.configure(Features.UI_WORKSPACE_CREATION, Boolean.parseBoolean(getProperty(Features.UI_WORKSPACE_CREATION)));
         features.configure(Features.UI_DSL_EDITOR, Boolean.parseBoolean(getProperty(Features.UI_DSL_EDITOR)));
         features.configure(Features.WORKSPACE_ARCHIVING, Boolean.parseBoolean(getProperty(Features.WORKSPACE_ARCHIVING)));
         features.configure(Features.WORKSPACE_BRANCHES, Boolean.parseBoolean(getProperty(Features.WORKSPACE_BRANCHES)));

@@ -176,7 +176,7 @@ public class ContextLoaderListener implements ServletContextListener {
         log.info("Configuration:");
 
         Set<String> propertiesToMask = Set.of(
-                ENCRYPTION_PASSPHRASE, API_KEY, AWS_S3_SECRET_ACCESS_KEY, AZURE_BLOB_STORAGE_ACCESS_KEY, ELASTICSEARCH_PASSWORD, REDIS_PASSWORD
+                ENCRYPTION_PASSPHRASE, API_KEY, AWS_S3_SECRET_ACCESS_KEY, AZURE_BLOB_STORAGE_ACCESS_KEY, ELASTICSEARCH_PASSWORD, REDIS_PASSWORD, OIDC_CLIENT_CLIENT_SECRET
         );
 
         Set<String> propertyNames = new TreeSet<>(properties.stringPropertyNames());
