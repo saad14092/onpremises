@@ -113,21 +113,21 @@ public class AdminApiControllerTests {
     @Test
     public void createWorkspace_ReturnsAnApiError_WhenNoAuthorizationHeaderIsSpecified() {
         try {
-            controller.createWorkspace(null);
+            controller.createWorkspace(null, null);
             fail();
         } catch (HttpUnauthorizedException e) {
             assertEquals("Authorization header must be provided", e.getMessage());
         }
 
         try {
-            controller.createWorkspace("");
+            controller.createWorkspace(null, "");
             fail();
         } catch (HttpUnauthorizedException e) {
             assertEquals("Authorization header must be provided", e.getMessage());
         }
 
         try {
-            controller.createWorkspace(" ");
+            controller.createWorkspace(null, " ");
             fail();
         } catch (HttpUnauthorizedException e) {
             assertEquals("Authorization header must be provided", e.getMessage());
@@ -138,7 +138,7 @@ public class AdminApiControllerTests {
     public void createWorkspace_ReturnsAnApiError_WhenNoApiKeyIsConfigured() {
         try {
             Configuration.init();
-            controller.createWorkspace("1234567890");
+            controller.createWorkspace(null, "1234567890");
             fail();
         } catch (ApiException e) {
             assertEquals("The API key is not configured for this installation - please refer to the documentation", e.getMessage());
@@ -148,7 +148,7 @@ public class AdminApiControllerTests {
     @Test
     public void createWorkspace_ReturnsAnApiError_WhenTheAuthorizationHeaderIsIncorrectlySpecified() {
         try {
-            controller.createWorkspace("0987654321");
+            controller.createWorkspace(null, "0987654321");
             fail();
         } catch (HttpUnauthorizedException e) {
             assertEquals("Incorrect API key", e.getMessage());
@@ -159,7 +159,7 @@ public class AdminApiControllerTests {
     public void createWorkspace() {
         controller.setWorkspaceComponent(new MockWorkspaceComponent() {
             @Override
-            public long createWorkspace(User user) throws WorkspaceComponentException {
+            public long createWorkspace(User user, Long forcedWorkspaceId) throws WorkspaceComponentException {
                 return 123456;
             }
 
@@ -173,7 +173,7 @@ public class AdminApiControllerTests {
             }
         });
 
-        WorkspaceApiResponse response = controller.createWorkspace("1234567890");
+        WorkspaceApiResponse response = controller.createWorkspace(null, "1234567890");
         assertEquals(123456, response.getId());
         assertEquals("Workspace 123456", response.getName());
         assertEquals("key", response.getApiKey());

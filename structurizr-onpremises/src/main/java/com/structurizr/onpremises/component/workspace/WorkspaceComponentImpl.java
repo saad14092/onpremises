@@ -249,9 +249,9 @@ class WorkspaceComponentImpl implements WorkspaceComponent {
     }
 
     @Override
-    public long createWorkspace(User user) throws WorkspaceComponentException {
+    public long createWorkspace(User user, Long forcedWorkspaceId) throws WorkspaceComponentException {
         try {
-            long workspaceId = workspaceDao.createWorkspace(user);
+            long workspaceId = workspaceDao.createWorkspace(user, forcedWorkspaceId);
             NumberFormat format = new DecimalFormat("0000");
 
             Workspace workspace = new Workspace("Workspace " + format.format(workspaceId), "Description");

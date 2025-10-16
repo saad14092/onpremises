@@ -61,13 +61,14 @@ public class AdminApiController extends AbstractController {
 
     @RequestMapping(value = "/api/workspace", method = RequestMethod.POST, produces = "application/json; charset=UTF-8")
     public @ResponseBody WorkspaceApiResponse createWorkspace(
+            @RequestParam(required = false) Long wsId,
             @RequestHeader(name = HttpHeaders.X_AUTHORIZATION, required = false) String apiKey
     ) {
 
         authenticateRequest(apiKey);
 
         try {
-            long workspaceId = workspaceComponent.createWorkspace(null);
+            long workspaceId = workspaceComponent.createWorkspace(null, wsId);
             if (workspaceId > 0) {
                 WorkspaceMetaData wmd = workspaceComponent.getWorkspaceMetaData(workspaceId);
                 return toWorkspaceApiResponse(wmd);
@@ -75,7 +76,7 @@ public class AdminApiController extends AbstractController {
                 throw new ApiException("Could not create workspace");
             }
         } catch (Exception e) {
-            log.error(e);
+            log.error("Error while creating workspace", e);
             throw new ApiException("Could not create workspace: " + e.getMessage());
         }
     }

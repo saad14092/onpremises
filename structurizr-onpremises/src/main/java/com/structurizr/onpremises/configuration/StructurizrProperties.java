@@ -17,10 +17,17 @@ public class StructurizrProperties {
     public static final String MAX_WORKSPACE_VERSIONS = "structurizr.maxworkspaceversions";
     public static final String DSL_EDITOR = "structurizr.dsleditor";
     public static final String INTERNET_CONNECTION = "structurizr.internetconnection";
+    public static final String GLOBAL_READ_ROLE = "structurizr.global.readrole";
+    public static final String GLOBAL_WRITE_ROLE = "structurizr.global.writerole";
+    public static final String WORKSPACE_READ_ROLE_TEMPLATE = "structurizr.workspace.readrole.template";
+    public static final String WORKSPACE_WRITE_ROLE_TEMPLATE = "structurizr.workspace.writerole.template";
+    public static final String DEFAULT_WORKSPACE_READ_ROLE_TEMPLATE = "/STRUCTURIZR/$CLIENT_ID/$WORKSPACE_ID/READ";
+    public static final String DEFAULT_WORKSPACE_WRITE_ROLE_TEMPLATE = "/STRUCTURIZR/$CLIENT_ID/$WORKSPACE_ID/WRITE";
 
     public static final String AUTHENTICATION_IMPLEMENTATION = "structurizr.authentication";
     public static final String AUTHENTICATION_VARIANT_FILE = "file";
     public static final String AUTHENTICATION_VARIANT_SAML = "saml";
+    public static final String AUTHENTICATION_VARIANT_OIDC = "oidc";
 
     public static final String SAML_REGISTRATION_ID = "structurizr.saml.registrationid";
     public static final String SAML_ENTITY_ID = "structurizr.saml.entityid";
@@ -29,6 +36,14 @@ public class StructurizrProperties {
     public static final String SAML_SIGNING_PRIVATE_KEY = "structurizr.saml.signing.privatekey";
     public static final String SAML_ATTRIBUTE_USERNAME = "structurizr.saml.attribute.username";
     public static final String SAML_ATTRIBUTE_ROLE = "structurizr.saml.attribute.role";
+
+    public static final String OIDC_CLIENT_PROVIDER_ISSUER_URI = "structurizr.oidc.client.provider.issueruri";
+    public static final String OIDC_CLIENT_REGISTRATION_ID= "structurizr.oidc.client.registrationid";
+    public static final String OIDC_CLIENT_CLIENT_ID= "structurizr.oidc.client.clientid";
+    public static final String OIDC_CLIENT_CLIENT_SECRET= "structurizr.oidc.client.clientsecret";
+    public static final String OIDC_CLIENT_SCOPE= "structurizr.oidc.client.scope";
+    public static final String OIDC_ATTRIBUTE_USERNAME = "structurizr.oidc.attribute.username";
+    public static final String OIDC_ATTRIBUTE_ROLE = "structurizr.oidc.attribute.role";
 
     public static final String SESSION_IMPLEMENTATION = "structurizr.session";
     public static final String SESSION_VARIANT_LOCAL = "local";

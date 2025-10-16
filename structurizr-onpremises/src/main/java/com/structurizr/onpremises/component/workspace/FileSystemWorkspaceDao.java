@@ -138,6 +138,7 @@ class FileSystemWorkspaceDao extends AbstractWorkspaceDao {
             fileWriter.flush();
             fileWriter.close();
         } catch (Exception e) {
+            log.error("Error while putting workspace metadata: ", e);
             throw new WorkspaceComponentException(e.getMessage(), e);
         }
     }

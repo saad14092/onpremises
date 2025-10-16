@@ -35,7 +35,7 @@ public class CreateWorkspaceControllerTests extends ControllerTestsBase {
 
         controller.setWorkspaceComponent(new MockWorkspaceComponent() {
             @Override
-            public long createWorkspace(User user) throws WorkspaceComponentException {
+            public long createWorkspace(User user, Long forcedWorkspaceId) throws WorkspaceComponentException {
                 return 1;
             }
         });
@@ -53,7 +53,7 @@ public class CreateWorkspaceControllerTests extends ControllerTestsBase {
 
         controller.setWorkspaceComponent(new MockWorkspaceComponent() {
             @Override
-            public long createWorkspace(User user) throws WorkspaceComponentException {
+            public long createWorkspace(User user, Long forcedWorkspaceId) throws WorkspaceComponentException {
                 return 1;
             }
         });

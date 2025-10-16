@@ -5,7 +5,6 @@ import com.structurizr.onpremises.domain.InputStreamAndContentLength;
 import com.structurizr.onpremises.domain.User;
 
 import java.io.File;
-import java.util.Collection;
 import java.util.List;
 
 public class MockWorkspaceDao implements WorkspaceDao {
@@ -26,7 +25,7 @@ public class MockWorkspaceDao implements WorkspaceDao {
     }
 
     @Override
-    public long createWorkspace(User user) {
+    public long createWorkspace(User user, Long forcedWorkspaceId) {
         return 0;
     }
 

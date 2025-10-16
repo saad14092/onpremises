@@ -165,7 +165,7 @@ public class WorkspaceComponentImplTests {
         final StringBuffer jsonBuffer = new StringBuffer();
         WorkspaceDao dao = new MockWorkspaceDao() {
             @Override
-            public long createWorkspace(User user) {
+            public long createWorkspace(User user, Long forcedWorkspaceId) {
                 return 1;
             }
 
@@ -181,7 +181,7 @@ public class WorkspaceComponentImplTests {
         };
 
         WorkspaceComponent workspaceComponent = new WorkspaceComponentImpl(dao, "");
-        long workspaceId = workspaceComponent.createWorkspace(null);
+        long workspaceId = workspaceComponent.createWorkspace(null, null);
 
         assertEquals(1, workspaceId);
         assertEquals(String.format("""

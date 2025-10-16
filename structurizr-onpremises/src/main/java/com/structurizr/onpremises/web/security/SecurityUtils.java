@@ -12,6 +12,8 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.oauth2.client.authentication.OAuth2AuthenticationToken;
+import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.security.saml2.provider.service.authentication.Saml2AuthenticatedPrincipal;
 import org.springframework.security.saml2.provider.service.authentication.Saml2Authentication;
 
@@ -37,8 +39,7 @@ public final class SecurityUtils {
 
         if (authentication != null) {
             Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-            if (principal instanceof UserDetails) {
-                UserDetails userDetails = (UserDetails) principal;
+            if (principal instanceof UserDetails userDetails) {
                 String username =  userDetails.getUsername();
 
                 for (GrantedAuthority grantedAuthority : userDetails.getAuthorities()) {
@@ -47,8 +48,7 @@ public final class SecurityUtils {
 
                 return new User(username, roles, AuthenticationMethod.LOCAL);
             } else {
-                if (authentication instanceof Saml2Authentication) {
-                    Saml2Authentication saml2Authentication = (Saml2Authentication)authentication;
+                if (authentication instanceof Saml2Authentication saml2Authentication) {
                     Saml2AuthenticatedPrincipal saml2AuthenticatedPrincipal = (Saml2AuthenticatedPrincipal)saml2Authentication.getPrincipal();
 
                     Map<String, List<Object>> attributes = saml2AuthenticatedPrincipal.getAttributes();
@@ -77,6 +77,23 @@ public final class SecurityUtils {
                     }
 
                     user = new User(username, roles, AuthenticationMethod.SAML);
+                } else if (authentication instanceof OAuth2AuthenticationToken oAuth2AuthenticationToken) {
+                    OAuth2User oAuth2Principal = oAuth2AuthenticationToken.getPrincipal();
+                    String usernameAttribute = Configuration.getInstance().getProperty(StructurizrProperties.OIDC_ATTRIBUTE_USERNAME);
+                    String username = oAuth2Principal.getAttribute(usernameAttribute);
+
+                    if (StringUtils.isNullOrEmpty(username)) {
+                        log.error("Could not find username : " + username);
+                        username = new RandomGuidGenerator().generate();
+                    }
+
+                    String roleAttribute = Configuration.getInstance().getProperty(StructurizrProperties.OIDC_ATTRIBUTE_ROLE);
+                    List<String> groups = oAuth2Principal.getAttribute(roleAttribute);
+                    if (groups != null) {
+                        roles.addAll(groups);
+                    }
+
+                    user = new User(username, roles, AuthenticationMethod.OIDC);
                 }
             }
         }

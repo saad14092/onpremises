@@ -67,6 +67,8 @@ dependencies {
 	implementation "org.springframework.security:spring-security-config:${springSecurityVersion}"
 	implementation "org.springframework.security:spring-security-ldap:${springSecurityVersion}"
 	implementation "org.springframework.security:spring-security-saml2-service-provider:${springSecurityVersion}"
+	implementation "org.springframework.security:spring-security-oauth2-client:${springSecurityVersion}"
+	implementation "org.springframework.security:spring-security-oauth2-jose:${springSecurityVersion}"
 	implementation 'org.springframework.session:spring-session-data-redis:3.3.3'
 	implementation 'redis.clients:jedis:5.2.0'
 

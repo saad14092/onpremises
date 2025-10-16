@@ -1,6 +1,7 @@
 package com.structurizr.onpremises.web.workspace.management;
 
 import com.structurizr.onpremises.component.workspace.WorkspaceComponentException;
+import com.structurizr.onpremises.configuration.Features;
 import com.structurizr.onpremises.domain.User;
 import com.structurizr.onpremises.configuration.Configuration;
 import com.structurizr.onpremises.web.workspace.AbstractWorkspaceController;
@@ -27,8 +28,9 @@ public class CreateWorkspaceController extends AbstractWorkspaceController {
                 return show404Page(model); // this should never happen, as this page requires authentication
             }
 
-            if (configuration.getAdminUsersAndRoles().isEmpty() || user.isUserOrRole(configuration.getAdminUsersAndRoles())) {
-                long workspaceId = workspaceComponent.createWorkspace(user);
+            if (Configuration.getInstance().isFeatureEnabled(Features.UI_WORKSPACE_CREATION)
+                    && (configuration.getAdminUsersAndRoles().isEmpty() || user.isUserOrRole(configuration.getAdminUsersAndRoles()))) {
+                long workspaceId = workspaceComponent.createWorkspace(user, null);
                 return "redirect:/workspace/" + workspaceId;
             } else {
                 return show404Page(model);
