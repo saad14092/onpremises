@@ -42,10 +42,10 @@ class FileSystemWorkspaceDao extends AbstractWorkspaceDao {
     }
 
     private File getPathToWorkspace(long workspaceId) {
-        return getPathToWorkspace(workspaceId, null);
+        return getPathToWorkspace(workspaceId, null, true);
     }
 
-    private File getPathToWorkspace(long workspaceId, String branch) {
+    private File getPathToWorkspace(long workspaceId, String branch, boolean createIfNotExists) {
         File path;
 
         if (StringUtils.isNullOrEmpty(branch)) {
@@ -54,7 +54,7 @@ class FileSystemWorkspaceDao extends AbstractWorkspaceDao {
             path = new File(dataDirectory, workspaceId + "/" + BRANCHES_DIRECTORY_NAME + "/" + branch);
         }
 
-        if (!path.exists()) {
+        if (!path.exists() && createIfNotExists) {
             try {
                 Path directory = Files.createDirectories(path.toPath());
                 if (!directory.toFile().exists()) {
@@ -145,7 +145,7 @@ class FileSystemWorkspaceDao extends AbstractWorkspaceDao {
 
     @Override
     public boolean deleteBranch(long workspaceId, String branch) {
-        File branchDirectory = getPathToWorkspace(workspaceId, branch);
+        File branchDirectory = getPathToWorkspace(workspaceId, branch, false);
         deleteDirectory(branchDirectory);
 
         return !branchDirectory.exists();
@@ -162,7 +162,7 @@ class FileSystemWorkspaceDao extends AbstractWorkspaceDao {
     @Override
     public String getWorkspace(long workspaceId, String branch, String version) {
         try {
-            File path = getPathToWorkspace(workspaceId, branch);
+            File path = getPathToWorkspace(workspaceId, branch, false);
             File file;
 
             if (!StringUtils.isNullOrEmpty(version)) {
@@ -185,7 +185,7 @@ class FileSystemWorkspaceDao extends AbstractWorkspaceDao {
     public void putWorkspace(WorkspaceMetaData workspaceMetaData, String json, String branch) {
         try {
             // write the latest version to workspace.json
-            File path = getPathToWorkspace(workspaceMetaData.getId(), branch);
+            File path = getPathToWorkspace(workspaceMetaData.getId(), branch, true);
             File file = new File(path, WORKSPACE_JSON_FILENAME);
             Files.writeString(file.toPath(), json);
 
@@ -209,7 +209,7 @@ class FileSystemWorkspaceDao extends AbstractWorkspaceDao {
         sdf.setTimeZone(TimeZone.getTimeZone(UTC_TIME_ZONE));
 
         try {
-            File workspaceDirectory = getPathToWorkspace(workspaceId, branch);
+            File workspaceDirectory = getPathToWorkspace(workspaceId, branch, false);
             if (workspaceDirectory.exists()) {
                 File[] files = workspaceDirectory.listFiles((dir, name) -> name.matches(WORKSPACE_VERSION_JSON_FILENAME_REGEX));
 
