@@ -263,4 +263,10 @@ public class AzureBlobStorageWorkspaceDao extends AbstractWorkspaceDao {
         }
     }
 
+    @Override
+    public boolean workspaceFolderExists(Long workspaceId) {
+        String blobName = WORKSPACES_VIRTUAL_DIRECTORY + workspaceId + "/" + WORKSPACE_PROPERTIES_FILENAME;
+        return blobContainerClient.getBlobClient(blobName).exists();
+    }
+
 }

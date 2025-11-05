@@ -75,6 +75,11 @@ public class WorkspaceComponentImplTests {
             public WorkspaceMetaData getWorkspaceMetaData(long workspaceId) {
                 return workspaceMap.get(workspaceId);
             }
+
+            @Override
+            public boolean workspaceFolderExists(Long workspaceId) {
+                return true;
+            }
         };
 
         WorkspaceComponentImpl workspaceComponent = new WorkspaceComponentImpl(dao, "");
@@ -132,6 +137,11 @@ public class WorkspaceComponentImplTests {
             @Override
             public WorkspaceMetaData getWorkspaceMetaData(long workspaceId) {
                 return workspaceMap.get(workspaceId);
+            }
+
+            @Override
+            public boolean workspaceFolderExists(Long workspaceId) {
+                return true;
             }
         };
 
@@ -215,6 +225,11 @@ public class WorkspaceComponentImplTests {
             @Override
             public void putWorkspaceMetaData(WorkspaceMetaData wmd) {
                 workspaceMetaData.setArchived(wmd.isArchived());
+            }
+
+            @Override
+            public boolean workspaceFolderExists(Long workspaceId) {
+                return true;
             }
         };
 
@@ -557,6 +572,11 @@ public class WorkspaceComponentImplTests {
                 workspaceMetaData.setLockedAgent(wmd.getLockedAgent());
                 workspaceMetaData.setLockedDate(wmd.getLockedDate());
             }
+
+            @Override
+            public boolean workspaceFolderExists(Long workspaceId) {
+                return true;
+            }
         };
 
         WorkspaceComponent workspaceComponent = new WorkspaceComponentImpl(dao, "");
@@ -591,6 +611,11 @@ public class WorkspaceComponentImplTests {
                 workspaceMetaData.setLockedAgent(wmd.getLockedAgent());
                 workspaceMetaData.setLockedDate(wmd.getLockedDate());
             }
+
+            @Override
+            public boolean workspaceFolderExists(Long workspaceId) {
+                return true;
+            }
         };
 
         WorkspaceComponent workspaceComponent = new WorkspaceComponentImpl(dao, "");
@@ -622,6 +647,11 @@ public class WorkspaceComponentImplTests {
                 workspaceMetaData.setLockedUser(wmd.getLockedUser());
                 workspaceMetaData.setLockedAgent(wmd.getLockedAgent());
                 workspaceMetaData.setLockedDate(wmd.getLockedDate());
+            }
+
+            @Override
+            public boolean workspaceFolderExists(Long workspaceId) {
+                return true;
             }
         };
 
@@ -655,6 +685,11 @@ public class WorkspaceComponentImplTests {
                 workspaceMetaData.setLockedAgent(wmd.getLockedAgent());
                 workspaceMetaData.setLockedDate(wmd.getLockedDate());
             }
+
+            @Override
+            public boolean workspaceFolderExists(Long workspaceId) {
+                return true;
+            }
         };
 
         WorkspaceComponent workspaceComponent = new WorkspaceComponentImpl(dao, "");
@@ -687,6 +722,11 @@ public class WorkspaceComponentImplTests {
                 workspaceMetaData.setLockedAgent(wmd.getLockedAgent());
                 workspaceMetaData.setLockedDate(wmd.getLockedDate());
             }
+
+            @Override
+            public boolean workspaceFolderExists(Long workspaceId) {
+                return true;
+            }
         };
 
         WorkspaceComponent workspaceComponent = new WorkspaceComponentImpl(dao, "");
@@ -716,6 +756,11 @@ public class WorkspaceComponentImplTests {
             public void putWorkspaceMetaData(WorkspaceMetaData wmd) {
                 workspaceMetaData.setSharingToken(wmd.getSharingToken());
             }
+
+            @Override
+            public boolean workspaceFolderExists(Long workspaceId) {
+                return true;
+            }
         };
 
         WorkspaceComponent workspaceComponent = new WorkspaceComponentImpl(dao, "");
@@ -739,6 +784,11 @@ public class WorkspaceComponentImplTests {
             @Override
             public void putWorkspaceMetaData(WorkspaceMetaData wmd) {
                 workspaceMetaData.setSharingToken(wmd.getSharingToken());
+            }
+
+            @Override
+            public boolean workspaceFolderExists(Long workspaceId) {
+                return true;
             }
         };
 

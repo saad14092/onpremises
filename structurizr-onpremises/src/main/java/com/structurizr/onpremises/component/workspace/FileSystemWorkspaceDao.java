@@ -361,4 +361,11 @@ class FileSystemWorkspaceDao extends AbstractWorkspaceDao {
         return imagesDirectory.delete();
     }
 
+    @Override
+    public boolean workspaceFolderExists(Long workspaceId) {
+        boolean exists = new File(dataDirectory, "" + workspaceId).exists();
+        log.debug("workspaceFolderExists("+ workspaceId + ") : " + exists);
+        return exists;
+    }
+
 }

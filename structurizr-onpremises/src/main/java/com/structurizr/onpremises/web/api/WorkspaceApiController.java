@@ -19,8 +19,11 @@ import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import javax.annotation.PreDestroy;
 import java.io.StringReader;
 import java.util.Base64;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 /**
  * An implementation of the Structurizr workspace API.
@@ -38,6 +41,7 @@ public class WorkspaceApiController extends AbstractController {
 
     private WorkspaceComponent workspaceComponent;
     private SearchComponent searchComponent;
+    private final ExecutorService executorService = Executors.newFixedThreadPool(10);
 
     @Autowired
     public void setWorkspaceComponent(WorkspaceComponent workspaceComponent) {
@@ -47,6 +51,11 @@ public class WorkspaceApiController extends AbstractController {
     @Autowired
     public void setSearchComponent(SearchComponent searchComponent) {
         this.searchComponent = searchComponent;
+    }
+
+    @PreDestroy
+    public void stop() {
+        executorService.shutdownNow();
     }
 
     @CrossOrigin
@@ -129,31 +138,37 @@ public class WorkspaceApiController extends AbstractController {
 
                 workspaceComponent.putWorkspace(workspaceId, branch, json);
 
-                if (json.contains("encryptionStrategy") && json.contains("ciphertext")) {
-                    // remove client-side encrypted workspaces from the search index
-                    try {
-                        searchComponent.delete(workspaceId);
-                    } catch (Exception e) {
-                        log.error(e);
-                    }
-                } else {
-                    try {
-                        Workspace workspace;
+                //Handle indexing asynchronously
+                String finalBranch = branch;
+                executorService.submit(() -> {
+                    log.debug("Started refreshing indexes for workspace : " + workspaceId);
+                    if (json.contains("encryptionStrategy") && json.contains("ciphertext")) {
+                        // remove client-side encrypted workspaces from the search index
                         try {
-                            JsonReader jsonReader = new JsonReader();
-                            StringReader stringReader = new StringReader(json);
-                            workspace = jsonReader.read(stringReader);
-                        } catch (WorkspaceReaderException e) {
-                            throw new ApiException(e.getMessage());
+                            searchComponent.delete(workspaceId);
+                        } catch (Exception e) {
+                            log.error(e);
                         }
+                    } else {
+                        try {
+                            Workspace workspace;
+                            try {
+                                JsonReader jsonReader = new JsonReader();
+                                StringReader stringReader = new StringReader(json);
+                                workspace = jsonReader.read(stringReader);
+                            } catch (WorkspaceReaderException e) {
+                                throw new ApiException(e.getMessage());
+                            }
 
-                        if (WorkspaceBranch.isMainBranch(branch)) {
-                            searchComponent.index(workspace);
+                            if (WorkspaceBranch.isMainBranch(finalBranch)) {
+                                searchComponent.index(workspace);
+                            }
+                        } catch (Exception e) {
+                            log.error(e);
                         }
-                    } catch (Exception e) {
-                        log.error(e);
                     }
-                }
+                    log.debug("Finished refreshing indexes for workspace : " + workspaceId);
+                });
 
                 return new ApiResponse("OK");
             } else {
@@ -227,6 +242,12 @@ public class WorkspaceApiController extends AbstractController {
 
     private void authoriseRequest(long workspaceId, String httpMethod, String path, String content, HttpServletRequest request, HttpServletResponse response) throws WorkspaceComponentException {
         try {
+            boolean workspaceFolderExists = workspaceComponent.workspaceFolderExists(workspaceId);
+            log.debug("workspaceFolderExists("+ workspaceId + ") : " + workspaceFolderExists);
+            if (!workspaceFolderExists) {
+                throw new HttpUnauthorizedException("Workspace with ID " + workspaceId + " does not exist");
+            }
+
             String authorizationHeaderAsString = request.getHeader(HttpHeaders.X_AUTHORIZATION);
             if (authorizationHeaderAsString == null || authorizationHeaderAsString.trim().length() == 0) {
                 // fallback on the regular header

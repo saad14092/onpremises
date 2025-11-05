@@ -79,4 +79,9 @@ public class MockWorkspaceDao implements WorkspaceDao {
         return false;
     }
 
+    @Override
+    public boolean workspaceFolderExists(Long workspaceId) {
+        return false;
+    }
+
 }

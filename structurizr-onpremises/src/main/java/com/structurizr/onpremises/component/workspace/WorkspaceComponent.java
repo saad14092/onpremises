@@ -55,4 +55,6 @@ public interface WorkspaceComponent {
 
     void unshareWorkspace(long workspaceId) throws WorkspaceComponentException;
 
+    boolean workspaceFolderExists(Long workspaceId);
+
 }

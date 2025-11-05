@@ -37,4 +37,6 @@ interface WorkspaceDao {
 
     boolean deleteImages(long workspaceId);
 
+    boolean workspaceFolderExists(Long workspaceId);
+
 }

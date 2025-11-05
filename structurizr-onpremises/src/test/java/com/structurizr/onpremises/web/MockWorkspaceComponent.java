@@ -116,4 +116,8 @@ public abstract class MockWorkspaceComponent implements WorkspaceComponent {
 
     }
 
+    @Override
+    public boolean workspaceFolderExists(Long workspaceId) {
+        return true;
+    }
 }

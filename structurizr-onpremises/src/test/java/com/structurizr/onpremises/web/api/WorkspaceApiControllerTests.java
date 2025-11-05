@@ -39,6 +39,7 @@ public class WorkspaceApiControllerTests {
 
     @Test
     public void getWorkspace_ReturnsAnApiError_WhenNoAuthorizationHeaderIsSpecified() {
+        controller.setWorkspaceComponent(new MockWorkspaceComponent() {});
         try {
             controller.getWorkspace(1, null, request, response);
             fail();
@@ -125,6 +126,7 @@ public class WorkspaceApiControllerTests {
 
     @Test
     public void putWorkspace_ReturnsAnApiError_WhenNoAuthorizationHeaderIsSpecified() {
+        controller.setWorkspaceComponent(new MockWorkspaceComponent() {});
         try {
             controller.putWorkspace(1, "json", request, response);
             fail();
@@ -224,6 +226,22 @@ public class WorkspaceApiControllerTests {
         request.addHeader(HttpHeaders.CONTENT_MD5, Base64.getEncoder().encodeToString(new Md5Digest().generate(json).getBytes()));
 
         controller.putWorkspace(1, json, request, response);
+    }
+
+    @Test
+    public void putWorkspace_ReturnsAnApiError_WhenTheWorkspaceDoesNotExist() {
+        controller.setWorkspaceComponent(new MockWorkspaceComponent() {
+            @Override
+            public boolean workspaceFolderExists(Long workspaceId) {
+                return false;
+            }
+        });
+        try {
+            controller.putWorkspace(1, "json", request, response);
+            fail();
+        } catch (HttpUnauthorizedException e) {
+            assertEquals("Workspace with ID 1 does not exist", e.getMessage());
+        }
     }
 
     @Test

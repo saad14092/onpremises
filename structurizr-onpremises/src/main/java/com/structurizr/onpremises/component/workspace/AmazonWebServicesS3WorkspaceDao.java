@@ -350,4 +350,16 @@ public class AmazonWebServicesS3WorkspaceDao extends AbstractWorkspaceDao {
         return objectKey;
     }
 
+    @Override
+    public boolean workspaceFolderExists(Long workspaceId) {
+        try {
+            String objectKey = getWorkspaceFolderName(workspaceId, WorkspaceBranch.NO_BRANCH) + WORKSPACE_PROPERTIES_FILENAME;
+            amazonS3.getObjectMetadata(new GetObjectMetadataRequest(bucketName, objectKey));
+            return true;
+        } catch (Throwable t) {
+            log.error(t.getMessage());
+            return false;
+        }
+    }
+
 }

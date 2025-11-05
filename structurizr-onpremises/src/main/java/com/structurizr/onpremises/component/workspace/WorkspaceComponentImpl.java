@@ -178,7 +178,9 @@ class WorkspaceComponentImpl implements WorkspaceComponent {
     public WorkspaceMetaData getWorkspaceMetaData(long workspaceId) throws WorkspaceComponentException {
         WorkspaceMetaData wmd = workspaceMetadataCache.get(workspaceId);
 
-        if (wmd == null) {
+        // workspaceDao.getWorkspaceMetaData will create an empty folder for the workspace if it doesn't exist.
+        // So we check that the folder exists before calling it.
+        if (wmd == null && workspaceFolderExists(workspaceId)) {
             wmd = workspaceDao.getWorkspaceMetaData(workspaceId);
             if (wmd != null) {
                 workspaceMetadataCache.put(wmd);
@@ -578,6 +580,11 @@ class WorkspaceComponentImpl implements WorkspaceComponent {
     @Override
     public boolean deleteImages(long workspaceId) throws WorkspaceComponentException {
         return workspaceDao.deleteImages(workspaceId);
+    }
+
+    @Override
+    public boolean workspaceFolderExists(Long workspaceId) {
+        return workspaceDao.workspaceFolderExists(workspaceId);
     }
 
 }
